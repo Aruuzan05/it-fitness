@@ -1,56 +1,73 @@
-Develop an end-to-end Data Science application that goes beyond static calorie counting. The system will predict a user's weight trajectory using supervised learning and provide real-time macronutrient optimization using constrained optimization algorithms.
+🏋️‍♂️ It-Fitness: Predictive Body Composition & Energy Analysis
+It-Fitness is a machine learning-powered health platform that predicts body weight changes and metabolic trends using the NHANES (National Health and Nutrition Examination Survey) dataset. Unlike standard calculators, this model utilizes high-dimensional physiological and dietary data to provide personalized health insights.
 
-Technical Requirements & Details
+🚀 Key Features
+Predictive Modeling: Uses XGBoost and Neural Networks to forecast weight trends based on 29 distinct features.
 
-┌─────────────────────────────────────────────────────────┐
-│ INFERENCE TIME │
-│ (every time a user submits) │
-│ │
-│ USER INPUTS (from Streamlit sidebar): │
-│ age → e.g. 24 │
-│ sex → male / female │
-│ height_cm → e.g. 175 │
-│ weight_kg → e.g. 82 │
-│ calories → e.g. 2200 (what they eat daily) │
-│ sedentary_mins → e.g. 480 │
-│ sleep_hrs → e.g. 7 │
-│ protein_g → e.g. 120 │
-│ fat_g → e.g. 70 │
-│ carb_g → e.g. 200 │
-│ │
-│ FEATURE ENGINEERING (same functions as training): │
-│ caloric_surplus = calories - tdee │
-│ surplus_per_kg = caloric_surplus / weight_kg │
-│ bmi = weight_kg / height_m² │
-│ │
-│ MODEL PREDICTION: │
-│ predicted_change = model.predict(X_user) │
-│ → e.g. −0.8 kg (will lose ~0.8 kg in 7 days) │
-│ │
-│ WEIGHT TRAJECTORY (for the Plotly chart): │
-│ Repeat prediction across N weeks, updating │
-│ weight_kg each iteration: │
-│ week 0: 82.0 kg │
-│ week 1: 82.0 + (−0.8) = 81.2 kg │
-│ week 2: 81.2 + model.predict(81.2, ...) = 80.5 kg │
-│ ... │
-│ │
-│ OPTIMIZER INPUT: │
-│ goal_weight_kg (from slider) → e.g. 75 kg │
-│ timeline_weeks (from slider) → e.g. 12 weeks │
-│ → required deficit = (82−75)×7700 / (12×7) kcal/day │
-│ → target_calories = tdee − required_deficit │
-│ │
-│ OPTIMIZER OUTPUT (SciPy): │
-│ protein_g = 2.0 × 75 = 150 g (600 kcal) │
-│ fat_g = 25% × 1800 / 9 = 50 g (450 kcal) │
-│ carb_g = remaining / 4 = 187 g (750 kcal) │
-│ total = 1800 kcal/day │
-│ │
-│ LLM INPUT: │
-│ "Generate a meal plan for 150g protein, │
-│ 50g fat, 187g carbs (1800 kcal)" │
-│ │
-│ LLM OUTPUT (displayed in Streamlit): │
-│ Breakfast: ..., Lunch: ..., Dinner: ..., │
-│ Grocery list: ... │
+MET-Based Activity Analysis: Implements WHO-standardized Metabolic Equivalent of Task (MET) calculations from NHANES PAQ data.
+
+Automated Feature Engineering: Dynamically calculates BMR (Mifflin-St Jeor), TDEE, and Caloric Surplus/Deficit.
+
+Interactive Streamlit Dashboard: A user-friendly interface for real-time predictions and nutritional "what-if" scenarios.
+
+📊 The Data Pipeline
+The project utilizes a multi-stage pipeline to transform raw CDC survey data into a production-ready model.
+
+1. Data Cleaning & Integration
+Sources: Merged Demographics (DEMO), Body Measures (BMX), Dietary Intake (DR1TOT), and Physical Activity (PAQ) files.
+
+Imputation Strategy: Employed SimpleImputer with a median strategy for body measurements and most_frequent for categorical data to maintain biological integrity.
+
+Outlier Management: Filtered survey-specific codes (e.g., 7777/9999) and handled biological outliers in caloric reporting.
+
+2. Feature Engineering
+Metabolic Metrics: Calculated Total MET-minutes/week to quantify activity intensity beyond simple sedentary time.
+
+Energy Balance: Derived sur_def (Surplus/Deficit) by comparing reported intake against calculated TDEE.
+
+Log Transformation: Applied np.log1p to skewed dietary features (Sugar, Fiber, Fat) to normalize distributions for the model.
+
+🤖 Modeling & Performance
+I evaluated multiple architectures to find the optimal balance between interpretability and predictive power.
+
+Note on Model Selection: While XGBoost is highly robust, the strong linear relationship between physiological features (Height/Waist) and Weight allowed Linear Regression to perform exceptionally well as a baseline.
+
+🛠️ Tech Stack
+Languages: Python (Pandas, NumPy)
+
+ML Frameworks: Scikit-Learn, XGBoost
+
+Visualization: Matplotlib, Seaborn
+
+Deployment: Streamlit, Joblib
+
+Version Control: Git (Feature Branching Workflow)
+
+📂 Project Structure
+
+it-fitness/
+├── data/
+│   └── processed/       # Scaled NumPy arrays & cleaned CSVs
+├── notebooks/
+│   ├── 01_preprocessing.ipynb      # EDA & Feature Engineering
+│   ├── 02_model.ipynb      # Model training & Hyperparameter tuning
+├── models/
+│   ├── preprocessor.pkl       # Saved ColumnTransformer
+│   └── xgb_model.pkl          # Trained XGBoost model
+|   └── linearreg.pkl          # Trained Linear Regression model
+├── app/
+│   └── streamlit_app.py           # Streamlit Application
+└── README.md
+🏃‍♂️ How to Run Locally
+Clone the repository:
+git clone https://github.com/yourusername/metrifit-ai.git
+
+Install dependencies:
+pip install -r requirements.txt
+
+Launch the app:
+streamlit run streamlit_app.py
+
+👤 Author
+Aruzhan Amangazy 
+Sophomore Data Science Student @ CUHK-Shenzhen Specializing in Big Data Technology & Finance.
