@@ -1,8 +1,11 @@
 🏋️‍♂️ It-Fitness: Predictive Body Composition & Energy Analysis
 It-Fitness is a machine learning-powered health platform that predicts body weight changes and metabolic trends using the NHANES (National Health and Nutrition Examination Survey) dataset. Unlike standard calculators, this model utilizes high-dimensional physiological and dietary data to provide personalized health insights.
 
+![it-fitness dashboard](images/app_main.png)
+![it-fitness dashboard](images/app_result.png)
+
 🚀 Key Features
-Predictive Modeling: Uses XGBoost and Neural Networks to forecast weight trends based on 29 distinct features.
+Predictive Modeling: Uses XGBoost and Linear Regression to forecast weight trends based on 29 distinct features.
 
 MET-Based Activity Analysis: Implements WHO-standardized Metabolic Equivalent of Task (MET) calculations from NHANES PAQ data.
 
