@@ -1,9 +1,6 @@
 🏋️‍♂️ It-Fitness: Predictive Body Composition & Energy Analysis
 It-Fitness is a machine learning-powered health platform that predicts body weight changes and metabolic trends using the NHANES (National Health and Nutrition Examination Survey) dataset. Unlike standard calculators, this model utilizes high-dimensional physiological and dietary data to provide personalized health insights.
 
-![it-fitness dashboard](images/app_main.png)
-![it-fitness dashboard](images/app_result.png)
-
 🚀 Key Features
 Predictive Modeling: Uses XGBoost and Linear Regression to forecast weight trends based on 29 distinct features.
 
@@ -12,6 +9,9 @@ MET-Based Activity Analysis: Implements WHO-standardized Metabolic Equivalent of
 Automated Feature Engineering: Dynamically calculates BMR (Mifflin-St Jeor), TDEE, and Caloric Surplus/Deficit.
 
 Interactive Streamlit Dashboard: A user-friendly interface for real-time predictions and nutritional "what-if" scenarios.
+
+![it-fitness dashboard](images/app_main.png)
+![it-fitness dashboard](images/app_result.png)
 
 📊 The Data Pipeline
 The project utilizes a multi-stage pipeline to transform raw CDC survey data into a production-ready model.
@@ -61,6 +61,7 @@ it-fitness/
 ├── app/
 │   └── streamlit_app.py           # Streamlit Application
 └── README.md
+
 🏃‍♂️ How to Run Locally
 Clone the repository:
 git clone https://github.com/yourusername/metrifit-ai.git
